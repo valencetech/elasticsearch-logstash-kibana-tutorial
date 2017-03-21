@@ -10,10 +10,16 @@ yum update -y
 cd /root
 wget https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-5.2.2.rpm
 yum install elasticsearch-5.2.2.rpm -y
+yum install nodejs npm -y --enablerepo=epel
+npm install -g grunt 
 rm -f elasticsearch-5.2.2.rpm
 cd /usr/share/elasticsearch/
-./bin/elasticsearch-plugin -install mobz/elasticsearch-head
-./bin/elasticsearch-plugin -install lukas-vlcek/bigdesk
+git clone git://github.com/mobz/elasticsearch-head.git
+cd elasticsearch-head
+npm install
+grunt server
+cd /usr/share/elasticsearch/
+./bin/elasticsearch-plugin install lukas-vlcek/bigdesk
 ./bin/elasticsearch-plugin install https://artifacts.elastic.co/downloads/elasticsearch-plugins/discovery-ec2/discovery-ec2-5.2.2.zip
 ./bin/plugin --install lmenezes/elasticsearch-kopf/2.1.1
 cd /etc/elasticsearch
